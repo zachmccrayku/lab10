@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>User Posts</title>
+    </head>
+    <body>
+        <?php
+        $myconn = new mysqli("mysql.eecs.ku.edu", "HIDDEN", "HIDDEN", "HIDDEN");
+        if($myconn->connecty_errno)
+        {
+            echo "<h1>Failed to connect.</h1>";
+        }
+        else
+        {
+            $query = "SELECT user_id FROM Users";
+            $result = $myconn->query($query);
+            if($result)
+            {
+                echo "<h1>User Posts</h1>";
+                echo "<form action="ViewUserPosts.php" method="get"><label for="user">User: </label><select name="user">";
+                while($row = $result->fetch_assoc())
+                {
+                    echo '<option value="' . $row['user_id'] . '">' . $row['user_id'] . '</option>';
+                }
+                echo "</select><br><input type="submit"></form>";
+                $result->free();
+            }
+            else
+            {
+                echo "<h1>There was an error retrieving users.</h1>";
+            }
+            $myconn->close();
+        }
+        ?>
+    </body>
+</html>
